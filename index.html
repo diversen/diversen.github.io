@@ -2,8 +2,9 @@
 <html>
     <body>
         <div>
-            <input id = "number" type="text" value="100">
-            <button id="update">Number of circles (click to update) - click on image to add single circles</button>
+            Number of circles (max 1000): <input id = "number" type="text" value="10"><br />
+            Opacity (0-100) 100 is more solid: <input id = "opacity" type="text" value="10">
+            <button id="update">Update</button>
         </div>
         <div>
             <canvas id="myCanvas">
@@ -42,11 +43,12 @@
 
             function randomFill() {
                 //var opacity = .05 + Math.random() * .5; 
-                var opacity = getRandomInt(0, 10) / 100;
+                var opacityNumber = document.getElementById("opacity").value;
+                var opacity = getRandomInt(0, opacityNumber) / 100;
                 var r = getRandomInt(0, 255);
                 var g = getRandomInt(0, 255);
                 var b = getRandomInt(0, 255);
-
+                
                 return "rgba(" + r + ", " + g + "," + b + "," + opacity + ')';
             }
 
@@ -68,6 +70,9 @@
             update.addEventListener('click', function (e) {
                 ctx.clearRect(0, 0, c.width, c.height);
                 var number = document.getElementById("number").value;
+                if (number > 10000) {
+                    number = 10000;
+                }
                 drawNumCircles(number);
                 
                         
