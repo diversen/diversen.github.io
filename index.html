@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <div>
+            <input id = "number" type="text" value="100">
+            <button id="update">Number of circles (click to update) - click on image to add single circles</button>
+        </div>
+        <div>
+            <canvas id="myCanvas">
+                Your browser does not support the HTML5 canvas tag.
+            </canvas>
+        </div>
+
+        <script>
+
+            // Some defaults
+            var c = document.getElementById("myCanvas");
+
+            c.height = 600; //window.innerHeight;
+            c.width = 600; // window.innerWidth;
+            c.style = 'background-color:#000';
+
+            var ctx = c.getContext("2d");
+
+            function drawNumCircles(num) {
+                for (i = 0; i < num; i++) {
+                    drawCircle(
+                        getRandomInt(0, c.height),
+                        getRandomInt(0, c.width),
+                        getRandomInt(10, c.height),
+                        0,
+                        2 * Math.PI
+                    );
+                }
+            }
+            
+            drawNumCircles(10);
+
+            function getRandomInt(min, max) {
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+
+            function randomFill() {
+                //var opacity = .05 + Math.random() * .5; 
+                var opacity = getRandomInt(0, 10) / 100;
+                var r = getRandomInt(0, 255);
+                var g = getRandomInt(0, 255);
+                var b = getRandomInt(0, 255);
+
+                return "rgba(" + r + ", " + g + "," + b + "," + opacity + ')';
+            }
+
+            function drawCircle(x, y, r, aB, aE) {
+                ctx.beginPath();
+                ctx.arc(x, y, r, aB, aE);
+                ctx.fillStyle = randomFill();
+                ctx.fill();
+                ctx.stroke();
+            }
+
+            c.addEventListener("click", function (e) {
+                drawCircle(e.pageX, e.pageY, getRandomInt(10, 100), 0, 2 * Math.PI);
+                console.log(event);
+            });
+
+            // update
+            var update = document.getElementById("update");
+            update.addEventListener('click', function (e) {
+                ctx.clearRect(0, 0, c.width, c.height);
+                var number = document.getElementById("number").value;
+                drawNumCircles(number);
+                
+                        
+            });
+
+
+            /*
+            var pos = {};
+            c.addEventListener("mousemove", function (e) {
+                pos.x = e.pageX;
+                pos.y = e.pageY;
+                //console.log(pos);
+            });*/
+
+        </script> 
+    </body>
+</html>
